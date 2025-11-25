@@ -1,9 +1,3 @@
-Below is a **professional, clean, emoji-free, copy-ready `README.md` file**.
-All content is kept exactly as you provided—only formatted properly for Markdown.
-
----
-
-````markdown
 # Crowdfunding Escrow DApp (Truffle & Ganache)
 
 This project is a decentralized application (dApp) for managing a secure, time-locked crowdfunding campaign on an Ethereum Virtual Machine (EVM) blockchain. It functions as a trustless escrow: funds are held by the smart contract and released to the Project Owner only if the goal is met by the deadline, otherwise contributors can get a full refund.
@@ -49,6 +43,7 @@ Follow these steps to set up the project and test the contract locally.
 - Truffle (Installed globally: `npm install -g truffle`)
 - Ganache CLI (Installed globally: `npm install -g ganache`)
 - MetaMask Browser Extension
+- Git (for version control and publishing)
 
 ---
 
@@ -57,125 +52,77 @@ Follow these steps to set up the project and test the contract locally.
 If you are starting from a clean directory (`C:\CrowdfundDApp`), run these commands:
 
 ```sh
-# Initialize project manifest
 npm init -y
-
-# Install local dependencies
 npm install
-
-# Initialize Truffle structure (creates contracts/, migrations/, etc.)
 truffle init
-````
-
----
-
-## 2. Compile and Deploy
-
+2. Compile and Deploy
 Ganache will simulate the blockchain.
 
-### A. Start the Local Blockchain (Terminal 1)
-
-Run Ganache:
-
-```sh
+A. Start the Local Blockchain (Terminal 1)
+sh
+Copy code
 ganache
-```
+This starts the server on http://127.0.0.1:8545 and provides 10 funded accounts (1,000 ETH each).
 
-This starts the server on `http://127.0.0.1:8545` and provides 10 funded accounts (1,000 ETH each).
-
-### B. Run Deployment (Terminal 2)
-
-In a second terminal:
-
-```sh
+B. Run Deployment (Terminal 2)
+sh
+Copy code
 truffle migrate --reset
-```
+This deploys Migrations.sol and Crowdfunder.sol. Copy the Contract Address from the output.
 
-This deploys both `Migrations.sol` and `Crowdfunder.sol`.
+3. Configure MetaMask
+Add Network
+Network Name: Ganache Local DApp
 
-Copy the Contract Address for the deployed Crowdfunder contract.
+RPC URL: http://127.0.0.1:8545
 
----
+Chain ID: 1337
 
-## 3. Configure MetaMask
+Currency Symbol: ETH
 
-### Add Network
-
-* Network Name: Ganache Local DApp
-* RPC URL: [http://127.0.0.1:8545](http://127.0.0.1:8545)
-* Chain ID: 1337
-* Currency Symbol: ETH
-
-### Import Accounts
-
+Import Accounts
 Import the Private Keys of:
 
-* Ganache Account (0) – Project Owner
-* Ganache Account (1) – Contributor
+Ganache Account (0) – Project Owner
 
----
+Ganache Account (1) – Contributor
 
-## Testing the DApp Interface
+Testing the DApp Interface
+The front-end (index.html) is where the core business logic is tested.
 
-The front-end (`index.html`) is where the core business logic is tested.
+Update index.html
+Open index.html and replace the placeholder values in the <script> section with:
 
-### Update index.html
+Your deployed Contract Address
 
-Open `index.html` and replace the placeholder values in the `<script>` section with:
+The full ABI array (found in build/contracts/Crowdfunder.json)
 
-* Your deployed Contract Address
-* The full ABI array (found in `build/contracts/Crowdfunder.json`)
+Launch
+Open index.html in your browser.
 
-### Launch
-
-Open `index.html` in your browser.
-
-### Connect Wallet
-
+Connect Wallet
 Select your imported MetaMask account.
 
----
+Test Case 1: Successful Withdrawal
+Use a Contributor account to send 10 ETH via the Donate box.
 
-## Test Case 1: Successful Withdrawal
+To simulate the passage of 31 days:
 
-1. Fund:
-   Use a Contributor account to send 10 ETH through the Donate box.
-
-2. Advance Time:
-   Run the following command to simulate 31 days:
-
-   ```sh
-   truffle exec 'web3.currentProvider.send({jsonrpc: "2.0", method: "evm_increaseTime", params: [2678400], id: 0}, console.log)'
-   ```
-
-3. Withdraw:
-   Switch to the Project Owner account and click Withdraw.
-
+sh
+Copy code
+truffle exec 'web3.currentProvider.send({jsonrpc: "2.0", method: "evm_increaseTime", params: [2678400], id: 0}, console.log)'
+Switch to the Project Owner account and click Withdraw.
 The Contract Balance should reduce to 0.
 
----
+Test Case 2: Failed Refund
+Reset contract:
 
-## Test Case 2: Failed Refund
+sh
+Copy code
+truffle migrate --reset
+Use a Contributor account to send 3 ETH.
 
-1. Reset:
+Run the time-increase command again.
 
-   ```sh
-   truffle migrate --reset
-   ```
-
-2. Underfund:
-   Use a Contributor account to send 3 ETH.
-
-3. Advance Time:
-   Run the time-increase command again.
-
-4. Refund:
-   Switch to the Contributor account and click Refund.
-
-The Contributor’s balance should increase by 3 ETH.
-
----
-
-```
-
-
+Switch to the Contributor account and click Refund.
+The Contributor's balance should increase by 3 ETH.
