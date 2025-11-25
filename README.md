@@ -127,5 +127,4 @@ Switch to the Contributor account and click Refund.
 The Contributor's balance should increase by 3 ETH.
 
 ## UI Interface:
-
 ![DApp Interface Screenshot](./ui-screenshot/my-dapp-screenshot.png)
