@@ -126,5 +126,6 @@ Run the time-increase command again.
 Switch to the Contributor account and click Refund.
 The Contributor's balance should increase by 3 ETH.
 
-## UI Interface is like this:
-<img width="1897" height="862" alt="my-dapp-screenshot" src="https://github.com/user-attachments/assets/d507f012-f685-499a-a520-97d747705275" />
+## UI Interface:
+
+![DApp Interface Screenshot](./ui-screenshot/my-dapp-screenshot.png)
