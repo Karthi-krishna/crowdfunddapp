@@ -130,4 +130,6 @@ The Contributor's balance should increase by 3 ETH.
 
 ## UI Interface is like this:
 
+## UI Interface is like this:
+
 ![DApp Interface Screenshot](./my-dapp-screenshot.png)
